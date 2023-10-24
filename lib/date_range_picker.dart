@@ -13,10 +13,9 @@ library date_range_picker;
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/material.dart';
 
 /// Initial display mode of the date picker dialog.
 ///
@@ -83,7 +82,7 @@ class _DatePickerHeader extends StatelessWidget {
     final TextTheme headerTextTheme = themeData.primaryTextTheme;
     Color? dayColor;
     Color? yearColor;
-    switch (themeData.primaryColorBrightness) {
+    switch (themeData.brightness) {
       case Brightness.light:
         dayColor = mode == DatePickerMode.day ? Colors.black87 : Colors.black54;
         yearColor =
@@ -500,8 +499,8 @@ class DayPicker extends StatelessWidget {
             currentDate.month == month &&
             currentDate.day == day) {
           // The current day gets a different text color.
-          itemStyle =
-              themeData.textTheme.bodyText1!.copyWith(color: themeData.primaryColor);
+          itemStyle = themeData.textTheme.bodyText1!
+              .copyWith(color: themeData.primaryColor);
         }
 
         Widget dayWidget = new Container(
@@ -743,8 +742,8 @@ class _MonthPickerState extends State<MonthPicker>
     if (!_isDisplayingLastMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_nextMonthDate), textDirection);
-      _dayPickerController!.nextPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .nextPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
@@ -752,8 +751,8 @@ class _MonthPickerState extends State<MonthPicker>
     if (!_isDisplayingFirstMonth) {
       SemanticsService.announce(
           localizations.formatMonthYear(_previousMonthDate), textDirection);
-      _dayPickerController!.previousPage(
-          duration: _kMonthScrollDuration, curve: Curves.ease);
+      _dayPickerController!
+          .previousPage(duration: _kMonthScrollDuration, curve: Curves.ease);
     }
   }
 
@@ -955,7 +954,7 @@ class _YearPickerState extends State<YearPicker> {
                 year == widget.selectedLastDate!.year);
         final TextStyle? itemStyle = isSelected
             ? themeData.textTheme.headline5!
-                .copyWith(color: themeData.accentColor)
+                .copyWith(color: themeData.colorScheme.secondary)
             : style;
         return new InkWell(
           key: new ValueKey<int>(year),
@@ -1128,7 +1127,7 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
           selectableDayPredicate: widget.selectableDayPredicate,
         );
       case DatePickerMode.year:
-        return  YearPicker(
+        return YearPicker(
           key: _pickerKey,
           selectedFirstDate: _selectedFirstDate!,
           selectedLastDate: _selectedLastDate,
@@ -1153,11 +1152,11 @@ class _DatePickerDialogState extends State<_DatePickerDialog> {
       data: ButtonBarThemeData(),
       child: new ButtonBar(
         children: <Widget>[
-          new FlatButton(
+          new TextButton(
             child: new Text(localizations.cancelButtonLabel),
             onPressed: _handleCancel,
           ),
-          new FlatButton(
+          new TextButton(
             child: new Text(localizations.okButtonLabel),
             onPressed: _handleOk,
           ),
